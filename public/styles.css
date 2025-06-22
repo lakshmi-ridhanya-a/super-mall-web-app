@@ -1,0 +1,74 @@
+/* Global */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f2f4f8;
+  color: #222;
+  margin: 0;
+  padding: 0;
+}
+.container, .login-container {
+  max-width: 480px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+}
+h2, h3 {
+  margin: 0 0 1rem;
+  color: #222;
+}
+input, select, button {
+  width: 100%;
+  margin: 8px 0;
+  padding: 10px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+button {
+  background: #e0e1e5;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+button:hover {
+  background: #c8c9cc;
+}
+.logout-btn {
+  float: right;
+  padding: 6px 12px;
+}
+.header::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.nav-buttons {
+  margin-bottom: 20px;
+}
+.nav-buttons button {
+  display: inline-block;
+  width: auto;
+  margin: 4px 8px 12px 0;
+}
+.form-section, .subform {
+  background: #fff;
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+.hidden {
+  display: none;
+}
+.list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 20px;
+}
+.list li {
+  border-bottom: 1px solid #e6e6e6;
+  padding: 8px 0;
+}

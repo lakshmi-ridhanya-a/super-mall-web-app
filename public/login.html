@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Super Mall Login</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="login-container">
+    <h2>Super Mall Login</h2>
+    <select id="userRole">
+      <option value="admin">Admin</option>
+      <option value="customer">Customer</option>
+    </select>
+    <input type="email" id="email" placeholder="Email" />
+    <input type="password" id="password" placeholder="Password" />
+    <button onclick="login()">Login</button>
+    <p>Don't have an account? <a href="#" onclick="showRegister()">Register here</a></p>
+
+    <div id="registerSection" class="hidden">
+      <h3>Register</h3>
+      <input type="email" id="regEmail" placeholder="Email" />
+      <input type="password" id="regPassword" placeholder="Password" />
+      <select id="regRole">
+        <option value="admin">Admin</option>
+        <option value="customer">Customer</option>
+      </select>
+      <button onclick="register()">Register</button>
+    </div>
+  </div>
+
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+  
+  <!-- Firebase Init -->
+  <script src="scripts/firebase-init.js"></script>
+
+  <script>
+    const auth = firebase.auth();
+
+    function login() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const role = document.getElementById("userRole").value;
+
+      auth.signInWithEmailAndPassword(email, password).then(() => {
+        localStorage.setItem("role", role);
+        window.location.href = role === "admin" ? "dashboard.html" : "view.html";
+      }).catch(err => alert(err.message));
+    }
+
+    function showRegister() {
+      document.getElementById("registerSection").classList.remove("hidden");
+    }
+
+    function register() {
+      const email = document.getElementById("regEmail").value;
+      const password = document.getElementById("regPassword").value;
+      const role = document.getElementById("regRole").value;
+
+      auth.createUserWithEmailAndPassword(email, password).then(cred => {
+        return firebase.firestore().collection("users").doc(cred.user.uid).set({ role });
+      }).then(() => {
+        alert("Registration successful. Please login.");
+        window.location.reload();
+      }).catch(err => alert(err.message));
+    }
+  </script>
+</body>
+</html>

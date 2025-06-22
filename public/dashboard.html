@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Super Mall Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h2>Super Mall Dashboard (Admin View)</h2>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </header>
+
+    <!-- Display All Shops -->
+    <section>
+      <h3>All Shops</h3>
+      <ul id="shopList" class="list"></ul>
+    </section>
+
+    <!-- Navigation Buttons -->
+    <div class="nav-buttons">
+      <button onclick="toggleSection('shopSection')">Manage Shops</button>
+      <button onclick="toggleSection('offerSection')">Manage Offers</button>
+      <button onclick="toggleSection('floorSection')">Manage Floors</button>
+      <button onclick="toggleSection('categorySection')">Manage Categories</button>
+      <button onclick="toggleSection('compareSection')">Compare Offers</button>
+    </div>
+
+    <!-- SHOP Section -->
+    <section id="shopSection" class="form-section hidden">
+      <h3>Add New Shop</h3>
+      <input type="text" id="shopName" placeholder="Shop Name" />
+      <input type="text" id="location" placeholder="Location" />
+      <input type="number" id="floor" placeholder="Floor Number" />
+      <input type="text" id="category" placeholder="Category" />
+      <button onclick="addShop()">Add Shop</button>
+    </section>
+
+    <!-- OFFER Section -->
+    <section id="offerSection" class="form-section hidden">
+      <h3>Add Offer</h3>
+      <select id="shopSelect"></select>
+      <input type="text" id="offerTitle" placeholder="Offer Title" />
+      <input type="text" id="discount" placeholder="Discount Details" />
+      <input type="date" id="validTill" placeholder="Valid Till" />
+      <button onclick="addOffer()">Add Offer</button>
+
+      <h4>All Offers</h4>
+      <ul id="offerList" class="list"></ul>
+    </section>
+
+    <!-- FLOOR Section -->
+    <section id="floorSection" class="form-section hidden">
+      <h3>Add Floor</h3>
+      <input type="number" id="floorNumber" placeholder="Floor Number" />
+      <input type="text" id="floorPurpose" placeholder="Purpose" />
+      <button onclick="addFloor()">Add Floor</button>
+      <h4>All Floors</h4>
+      <ul id="floorList" class="list"></ul>
+    </section>
+
+    <!-- CATEGORY Section -->
+    <section id="categorySection" class="form-section hidden">
+      <h3>Add Category</h3>
+      <input type="text" id="categoryName" placeholder="Category Name" />
+      <button onclick="addCategory()">Add Category</button>
+      <h4>All Categories</h4>
+      <ul id="categoryList" class="list"></ul>
+    </section>
+
+    <!-- COMPARE Section -->
+    <section id="compareSection" class="form-section hidden">
+      <h3>Compare Offers Between Two Shops</h3>
+      <select id="compareShop1"></select>
+      <select id="compareShop2"></select>
+      <button onclick="compareOffers()">Compare</button>
+      <div id="compareResult"></div>
+    </section>
+  </div>
+
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+  <!-- Initialization + Modules -->
+  <script src="scripts/firebase-init.js"></script>
+  <script src="scripts/logger.js"></script>
+  <script src="scripts/shop.js"></script>
+  <script src="scripts/offer.js"></script>
+  <script src="scripts/floor.js"></script>
+  <script src="scripts/category.js"></script>
+  <script src="scripts/compare.js"></script>
+
+  <!-- UI Toggles -->
+  <script>
+    function toggleSection(id) {
+      document.querySelectorAll(".form-section").forEach(sec => sec.classList.add("hidden"));
+      document.getElementById(id).classList.toggle("hidden");
+    }
+
+    function logout() {
+      firebase.auth().signOut().then(() => {
+        window.location.href = "login.html";
+      });
+    }
+
+    firebase.auth().onAuthStateChanged(user => {
+      if (!user) {
+        window.location.href = "login.html";
+      } else {
+        loadShops();
+        loadShopsDropdown();
+        loadOffers();
+        loadCompareDropdowns();
+      }
+    });
+  </script>
+</body>
+</html>
