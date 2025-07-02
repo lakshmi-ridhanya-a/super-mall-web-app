@@ -82,8 +82,22 @@ SuperMall/
 ## How the System Works
 
 - On login, the user selects their role (admin or customer).
+  ![image](https://github.com/user-attachments/assets/63195305-8da5-4c5f-a6b3-646885be7f1b)
+
 - Admins are redirected to `dashboard.html`, where they can perform CRUD operations on shops, offers, floors, and categories.
+  ![image](https://github.com/user-attachments/assets/3d4872be-7fcf-4cd1-8835-1966b60f5d58)
+![image](https://github.com/user-attachments/assets/52e89167-bb3c-4adb-8afb-169fed790afd)
+![image](https://github.com/user-attachments/assets/2b28d0ca-e361-40e7-924c-f91caa8ef3ae)
+![image](https://github.com/user-attachments/assets/421b4784-4ce0-4526-9f05-fc61c1fb8e89)
+![image](https://github.com/user-attachments/assets/82da84e0-0af4-4ec3-a317-84ef42e39e9f)
+![image](https://github.com/user-attachments/assets/835920ce-b5be-4bf7-881b-4991e652ff73)
+
 - Customers are redirected to `view.html`, where they can only view shop data and compare offers.
+  ![image](https://github.com/user-attachments/assets/60ce9734-2953-4d89-92d4-2db8699b2544)
+![image](https://github.com/user-attachments/assets/b7078af8-3e17-4732-993f-381175b4145f)
+![image](https://github.com/user-attachments/assets/ed500adf-7dc1-4a72-8879-46c0c2f6c84a)
+![image](https://github.com/user-attachments/assets/ab654c88-ff49-4293-8dea-eafcdb94ba89)
+
 - All data is stored and updated in real time using Firebase Firestore.
 
 ## Evaluation Criteria
