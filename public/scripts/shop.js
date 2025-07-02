@@ -1,7 +1,7 @@
 // Ensure Firestore DB is available
 const db = firebase.firestore();
 
-// ✅ Add a new shop
+//  Add a new shop
 window.addShop = function () {
   const name = document.getElementById("shopName").value;
   const location = document.getElementById("location").value;
@@ -23,13 +23,15 @@ window.addShop = function () {
   .then(() => {
     alert("Shop added!");
     loadShops();
+    loadShopsDropdown();     //  Update dropdown after adding
+    loadCompareDropdowns();  //  Also update compare dropdowns
   })
   .catch(error => {
     alert("Error adding shop: " + error.message);
   });
 };
 
-// ✅ Load all shops
+//  Load all shops (display in list)
 window.loadShops = function () {
   const list = document.getElementById("shopList");
   if (!list) {
@@ -50,7 +52,7 @@ window.loadShops = function () {
     .catch(err => console.error("Failed to load shops", err));
 };
 
-// ✅ Load dropdowns for comparison
+//  Load dropdowns for comparison
 window.loadCompareDropdowns = function () {
   db.collection("shops").get().then(snapshot => {
     const shop1 = document.getElementById("compareShop1");
@@ -75,10 +77,32 @@ window.loadCompareDropdowns = function () {
   });
 };
 
-// ✅ Apply filters
+//  Load shop dropdown for offer creation
+window.loadShopsDropdown = function () {
+  const dropdown = document.getElementById("shopSelect");
+  if (!dropdown) {
+    console.warn("shopSelect dropdown not found");
+    return;
+  }
+
+  db.collection("shops").orderBy("createdAt", "desc").get()
+    .then(snapshot => {
+      dropdown.innerHTML = "<option value=''>Select a Shop</option>";
+      snapshot.forEach(doc => {
+        const shop = doc.data();
+        const option = document.createElement("option");
+        option.value = doc.id;
+        option.textContent = `${shop.name} - Floor ${shop.floor}`;
+        dropdown.appendChild(option);
+      });
+    })
+    .catch(err => console.error("Failed to load shops dropdown", err));
+};
+
+//  Apply filters for shop search
 window.applyFilters = function () {
-  const search = document.getElementById("searchText").value.toLowerCase();
-  const floor = document.getElementById("filterFloor").value;
+  const search = document.getElementById("searchText")?.value?.toLowerCase() || "";
+  const floor = document.getElementById("filterFloor")?.value || "";
 
   db.collection("shops").get().then(snapshot => {
     const list = document.getElementById("shopList");
@@ -99,7 +123,7 @@ window.applyFilters = function () {
   });
 };
 
-// ✅ Add an offer
+//  Add an offer
 window.addOffer = function () {
   const shopId = document.getElementById("shopSelect").value;
   const title = document.getElementById("offerTitle").value;
@@ -123,7 +147,7 @@ window.addOffer = function () {
   });
 };
 
-// ✅ Load all offers
+//  Load all offers
 window.loadOffers = function () {
   const list = document.getElementById("offerList");
   if (!list) {
@@ -142,7 +166,7 @@ window.loadOffers = function () {
   });
 };
 
-// ✅ Compare offers between 2 shops
+// Compare offers between 2 shops
 window.compareOffers = function () {
   const shop1 = document.getElementById("compareShop1").value;
   const shop2 = document.getElementById("compareShop2").value;
